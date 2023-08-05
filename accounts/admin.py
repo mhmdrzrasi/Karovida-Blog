@@ -1,3 +1,46 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .forms import UserChangeForm, UserCreationForm
 
-# Register your models here.
+
+class UserAdmin(BaseUserAdmin):
+    # The forms to add and change user instances
+    form = UserChangeForm
+    add_form = UserCreationForm
+
+    # The fields to be used in displaying the User model.
+    # These override the definitions on the base UserAdmin
+    # that reference specific fields on auth.User.
+    list_display = ["get_name", "phone_number", "national_id", "is_admin", "id"]
+    list_filter = ["is_admin"]
+
+    fieldsets = [
+        (None, {"fields": ["phone_number", "password"]}),
+        ("Personal info", {"fields": ["first_name", "last_name", "national_id", "email"]}),
+        ("Permissions", {"fields": ["is_admin"]}),
+    ]
+    add_fieldsets = [
+        (
+            None,
+            {
+                "classes": ["wide"],
+                "fields": ["first_name", "last_name", "phone_number", "national_id", "email", "password1", "password2"],
+            },
+        ),
+    ]
+    search_fields = ["first_name", "last_name", "phone_number", "national_id"]
+    ordering = ["first_name", "last_name"]
+    filter_horizontal = []
+
+    def get_name(self, obj):
+        return obj.get_short_name()
+
+    get_name.short_description = "full name"
+
+
+# Now register the new UserAdmin...
+admin.site.register(User, UserAdmin)
+# ... and, since we're not using Django's built-in permissions,
+# unregister the Group model from admin.
+admin.site.unregister(Group)
