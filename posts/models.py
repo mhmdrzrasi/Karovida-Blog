@@ -13,7 +13,7 @@ class Post(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='post')
-    tags = models.ManyToManyField('Tag', on_delete=models.CASCADE, related_name='post')
+    tags = models.ManyToManyField('Tag', related_name='post')
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICE)
 
@@ -30,7 +30,7 @@ class RawPost(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='raw_post')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='raw_post')
-    tags = models.ManyToManyField('Tag', on_delete=models.CASCADE, related_name='raw_post')
+    tags = models.ManyToManyField('Tag', related_name='raw_post')
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICE)
 
