@@ -40,16 +40,16 @@ class RawPost(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length='256')
-    description = models.CharField(max_length='1024')
+    name = models.CharField(max_length=256)
+    description = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.name
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length='256')
-    description = models.CharField(max_length='1024')
+    name = models.CharField(max_length=256)
+    description = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.name
