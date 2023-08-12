@@ -14,26 +14,27 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ["get_name", "phone_number", "national_id", "is_admin", "id"]
-    list_filter = ["is_admin"]
+    list_display = ["get_name", "phone_number", "national_id", "is_staff", "is_superuser", "id"]
+    list_filter = ["is_staff", "is_superuser"]
 
     fieldsets = [
         (None, {"fields": ["phone_number", "password"]}),
         ("Personal info", {"fields": ["first_name", "last_name", "national_id", "email"]}),
-        ("Permissions", {"fields": ["is_admin"]}),
+        ("Permissions", {"fields": ["is_staff", "is_superuser", "user_permissions"]}),
     ]
     add_fieldsets = [
         (
             None,
             {
                 "classes": ["wide"],
-                "fields": ["first_name", "last_name", "phone_number", "national_id", "email", "password1", "password2"],
+                "fields": ["first_name", "last_name", "phone_number", "national_id", "email", "password1", "password2",
+                           "is_staff", "is_superuser", "user_permissions"],
             },
         ),
     ]
     search_fields = ["first_name", "last_name", "phone_number", "national_id"]
     ordering = ["first_name", "last_name"]
-    filter_horizontal = []
+    filter_horizontal = ['user_permissions']
 
     def get_name(self, obj):
         return obj.get_short_name()
