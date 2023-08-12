@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weblog</title>
+    <link rel="stylesheet" href="{% static 'fonts/Iranian Sans.ttf' %}">
+    <link rel="stylesheet" href="{% static 'css/vazir.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- navigation -->
+{% include 'inc/navigation.html' %}
+
+
+<!-- content -->
+<header class="header" id="head">
+
+    <!-- filters -->
+    {% include 'inc/filter.html' %}
+
+    <div class="header-container">
+
+        <!-- posts -->
+        <div class="post" id="post_1">
+
+
+            <div class="post-title"> <!-- title-->
+                <h2 class="post-title__h2">کاروویدا</h2>
+            </div>
+            <div class="post-content"> <!-- content-->
+                <p class="post-content__p">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                    طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط
+                    فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
+                    شصت و سه درصد گذشته...</p>
+                <!-- see more-->
+                <a class="post-content__seeMore" href="../weblog-2/index.html" target="_blank">ادامه مطلب</a>
+            </div>
+            <div class="post-media"> <!-- media-->
+                <img src="./img/Screenshot 2023-08-06 131854.png" alt="img" class="post-media__img">
+            </div>
+
+            <div class="post-footer">
+                <div class="post-footer__date"> <!-- date-->
+                    <p class="post-footer__date-p">۱۴۰۲/۰۵/۱۵</p>
+                </div>
+                <!-- tags-->
+                <!-- <div class="post-footer__tags">
+                    <a href="#" class="post-footer__tags-tag" id="post-footer__tags-tag_1">تگ۱#</a>
+                    <a href="#" class="post-footer__tags-tag" id="post-footer__tags-tag_2">تگ۲#</a>
+                    <a href="#" class="post-footer__tags-tag" id="post-footer__tags-tag_3">تگ۳#</a>
+                </div> -->
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<div class="up">
+    <a href="#head" class="up-goUp"><i class="fas fa-chevron-up"></i></a>
+</div>
+
+<script src="{% static 'javascript/app.js' %}"></script>
+</body>
+</html>
