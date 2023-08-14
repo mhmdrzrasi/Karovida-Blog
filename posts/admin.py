@@ -12,7 +12,6 @@ admin.site.register(Tag)
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'solar_date', 'slug', 'author', 'reviewer', 'status']
     list_filter = ['status']
     list_editable = []
 
@@ -47,11 +46,12 @@ class PostAdmin(admin.ModelAdmin):
             obj.publish_date = None
         super().save_model(request, obj, form, change)
 
-    # def get_list_display(self, request):
-    #     if request.user.is_superuser:
-    #         self.list_editable.append('status')
-    #     list_display = super().get_list_display(request)
-    #     return list_display
+    def get_list_display(self, request):
+        if request.user.is_editor:
+            return ['title', 'category', 'solar_date', 'slug', 'status']
+        if request.user.is_journalist:
+            return ['title', 'category', 'solar_date', 'slug', 'author', 'status']
+        return ['title', 'category', 'solar_date', 'slug', 'author', 'reviewer', 'status']
 
     solar_date.short_description = 'تاریخ انتشار (اولین ایجاد)'
 
