@@ -26,9 +26,9 @@ class Post(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='post_reviewer',
                                  verbose_name='بررسی کننده')
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, unique=True, related_name='post',
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='post',
                                  verbose_name='دسته بندی')
-    tags = models.ManyToManyField('Tag', blank=True, unique=True, related_name='post', verbose_name='برچسب ها')
+    tags = models.ManyToManyField('Tag', blank=True, related_name='post', verbose_name='برچسب ها')
 
     post_id = models.CharField(max_length=128, unique=True, help_text='به عنوان id داخل فایل HTML استفاده می شود')
 
@@ -56,7 +56,7 @@ class Category(models.Model):
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
 
-    name = models.CharField(max_length=256, verbose_name='اسم')
+    name = models.CharField(max_length=256, unique=True, verbose_name='اسم')
     description = models.CharField(max_length=1024, null=True, blank=True, help_text='حداکثر 1024 کاراکتر',
                                    verbose_name='توضیحات')
 
@@ -69,7 +69,7 @@ class Tag(models.Model):
         verbose_name = 'برچسب'
         verbose_name_plural = 'برچسب ها'
 
-    name = models.CharField(max_length=256, verbose_name='اسم')
+    name = models.CharField(max_length=256, unique=True, verbose_name='اسم')
     description = models.CharField(max_length=1024, null=True, blank=True, help_text='حداکثر 1024 کاراکتر',
                                    verbose_name='توضیحات')
 
