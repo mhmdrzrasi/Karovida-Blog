@@ -1,5 +1,6 @@
 STATUS_CHOICE = (
-    ('A', 'ACTIVE'),
-    ('D', 'INACTIVE'),
-    ('U', 'UPDATE')
+    ('A', 'آرشیو'),  # ARCHIVE
+    ('C', 'تایید شده'),  # CONFIRMED
+    ('W', 'منتظر تایید'),  # WAITING
+    ('F', 'رد شده'),  # FAILED
 )
