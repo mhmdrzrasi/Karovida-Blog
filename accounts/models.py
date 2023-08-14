@@ -11,6 +11,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     national_id = models.CharField(max_length=10, unique=True)
     email = models.EmailField(unique=True)
 
+    is_editor = models.BooleanField(
+        default=False,
+        help_text="Designates whether the user is an editor.",
+    )
+    is_journalist = models.BooleanField(
+        default=False,
+        help_text="Designates whether the user is a journalist."
+    )
+
     is_active = models.BooleanField(
         default=True,
         help_text=
