@@ -12,7 +12,7 @@ admin.site.register(Tag)
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'category', 'solar_date', 'status', 'slug']
+    list_display = ['title', 'category', 'solar_date', 'slug', 'author', 'reviewer', 'status']
     list_filter = ['status']
     list_editable = []
 
@@ -20,24 +20,31 @@ class PostAdmin(admin.ModelAdmin):
         return obj.jalali_date_time
 
     def get_fields(self, request, obj=None):
-        if request.user.is_editor:  # Assuming is_editor attribute on User model
-            return ['title', 'content', 'short_description', 'image', 'category', 'tags', 'post_id']
-        elif request.user.is_journalist:  # Assuming is_journalist attribute on User model
-            return ['title', 'content', 'short_description', 'image', 'category', 'tags', 'status', 'post_id']
+        if request.user.is_editor:
+            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id']
+        elif request.user.is_journalist:
+            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id', 'status']
         else:
-            return ['title', 'content', 'short_description', 'image', 'category', 'tags', 'status', 'post_id']
+            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id', 'status']
 
     def save_model(self, request, obj, form, change):
         if request.user.is_editor:
             obj.author = request.user  # Set author to current user (editor)
             obj.status = 'W'
-        elif request.user.is_journalist:
-            obj.acceptor = request.user  # Set acceptor to current user (journalist)
-            # if not obj.author:
-            #     obj.author = request.user
+            obj.reviewer = None
+        else:
+            try:
+                obj.author
+            except:  # If the person creating the post is not an editor
+                obj.author = request.user  # Set author to current user (journalist)
+            obj.reviewer = request.user  # Set reviewer to current user (journalist)
+
             if obj.status == 'C':
                 utc_timezone = pytz.timezone('UTC')  # Use the 'UTC' timezone
                 obj.publish_date = utc_timezone.localize(datetime.now())
+
+        if obj.status != 'C':
+            obj.publish_date = None
         super().save_model(request, obj, form, change)
 
     # def get_list_display(self, request):
@@ -46,7 +53,7 @@ class PostAdmin(admin.ModelAdmin):
     #     list_display = super().get_list_display(request)
     #     return list_display
 
-    solar_date.short_description = 'تاریخ انتشار'
+    solar_date.short_description = 'تاریخ انتشار (اولین ایجاد)'
 
 
 admin.site.register(Post, PostAdmin)

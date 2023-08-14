@@ -17,28 +17,28 @@ class Post(models.Model):
     content = models.TextField(help_text='محتوا اصلی پست که به صورت HTML وارد شود', verbose_name='محتوا پست')
     image = models.ImageField(upload_to='uploads/', null=True, blank=True, verbose_name='عکس')
 
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
-    # todo: whenever journalist accept that
     publish_date = models.DateTimeField(null=True, blank=True, verbose_name='تاریخ انتشار')
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_author', verbose_name='نویسنده')
-    acceptor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='post_acceptor',
-                                 verbose_name='تایید کننده')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='post_reviewer',
+                                 verbose_name='بررسی کننده')
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='post', verbose_name='دسته بندی')
-    tags = models.ManyToManyField('Tag', related_name='post', blank=True, verbose_name='برچسب ها')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, unique=True, related_name='post',
+                                 verbose_name='دسته بندی')
+    tags = models.ManyToManyField('Tag', blank=True, unique=True, related_name='post', verbose_name='برچسب ها')
 
     post_id = models.CharField(max_length=128, unique=True, help_text='به عنوان id داخل فایل HTML استفاده می شود')
 
-    status = models.CharField(max_length=1, choices=STATUS_CHOICE, verbose_name='وضعیت')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='W', verbose_name='وضعیت')
 
     @property
     def jalali_date_time(self):
         ad_date = self.publish_date
         if not ad_date:
-            return JalaliDate.to_jalali(datetime.now())
+            return None
         #     If you want to display the 'time' at the same time, you can use JalaliDateTime
         return JalaliDate.to_jalali(datetime(ad_date.year, ad_date.month, ad_date.day))
 
