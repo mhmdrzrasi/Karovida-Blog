@@ -3,7 +3,6 @@ from django.forms import ModelForm
 
 from .models import Post, Category, Tag
 from persiantools.jdatetime import JalaliDateTime
-from django.utils.text import slugify
 from datetime import datetime
 import pytz
 
@@ -29,7 +28,6 @@ class PostAdmin(admin.ModelAdmin):
             return ['title', 'content', 'short_description', 'image', 'category', 'tags', 'status', 'post_id']
 
     def save_model(self, request, obj, form, change):
-        obj.slug = slugify(obj.title)
         if request.user.is_editor:
             obj.author = request.user  # Set author to current user (editor)
             obj.status = 'W'
@@ -42,11 +40,11 @@ class PostAdmin(admin.ModelAdmin):
                 obj.publish_date = utc_timezone.localize(datetime.now())
         super().save_model(request, obj, form, change)
 
-    def get_list_display(self, request):
-        if request.user.is_superuser:
-            self.list_editable.append('status')
-        list_display = super().get_list_display(request)
-        return list_display
+    # def get_list_display(self, request):
+    #     if request.user.is_superuser:
+    #         self.list_editable.append('status')
+    #     list_display = super().get_list_display(request)
+    #     return list_display
 
     solar_date.short_description = 'تاریخ انتشار'
 

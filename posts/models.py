@@ -4,6 +4,7 @@ from accounts.models import User
 from .constants import STATUS_CHOICE
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime
+from django.utils.text import slugify
 
 
 class Post(models.Model):
@@ -16,7 +17,7 @@ class Post(models.Model):
     content = models.TextField(help_text='محتوا اصلی پست که به صورت HTML وارد شود', verbose_name='محتوا پست')
     image = models.ImageField(upload_to='uploads/', null=True, blank=True, verbose_name='عکس')
 
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     # todo: whenever journalist accept that
@@ -43,6 +44,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Category(models.Model):
