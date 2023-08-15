@@ -53,7 +53,7 @@ class PostAdmin(admin.ModelAdmin):
             return ['title', 'category', 'solar_date', 'slug', 'author', 'status']
         return ['title', 'category', 'solar_date', 'slug', 'author', 'reviewer', 'status']
 
-    solar_date.short_description = 'تاریخ انتشار (اولین ایجاد)'
+    solar_date.short_description = 'تاریخ انتشار'
 
 
 admin.site.register(Post, PostAdmin)
