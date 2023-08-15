@@ -14,7 +14,7 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ["get_name", "is_editor", "is_journalist", "is_staff", "is_superuser", "id"]
+    list_display = ["get_name", "is_editor", "is_journalist", "is_superuser", "is_staff", "id"]
     list_filter = ["is_superuser", "is_staff", "is_journalist", "is_editor"]
 
     fieldsets = [
@@ -39,7 +39,7 @@ class UserAdmin(BaseUserAdmin):
     def get_name(self, obj):
         return obj.get_short_name()
 
-    get_name.short_description = "full name"
+    get_name.short_description = "نام و نام خانوادگی"
 
 
 # Now register the new UserAdmin...
