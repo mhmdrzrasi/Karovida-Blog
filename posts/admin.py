@@ -6,13 +6,18 @@ from persiantools.jdatetime import JalaliDateTime
 from datetime import datetime
 import pytz
 
-# admin.site.register(Post)
-admin.site.register(Category)
-admin.site.register(Tag)
+
+class TagInline(admin.TabularInline):
+    model = Post.tags.through
+    verbose_name = 'تگ'
+    verbose_name_plural = 'تگ ها'
+    extra = 1
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_filter = ['status']
+    inlines = [TagInline]
     list_editable = []
 
     def solar_date(self, obj):
@@ -20,11 +25,11 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         if request.user.is_editor:
-            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id']
+            return ['title', 'short_description', 'content', 'image', 'category', 'post_id']
         elif request.user.is_journalist:
-            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id', 'status']
+            return ['title', 'short_description', 'content', 'image', 'category', 'post_id', 'status']
         else:
-            return ['title', 'short_description', 'content', 'image', 'category', 'tags', 'post_id', 'status']
+            return ['title', 'short_description', 'content', 'image', 'category', 'post_id', 'status']
 
     def save_model(self, request, obj, form, change):
         if request.user.is_editor:
@@ -56,4 +61,5 @@ class PostAdmin(admin.ModelAdmin):
     solar_date.short_description = 'تاریخ انتشار'
 
 
-admin.site.register(Post, PostAdmin)
+admin.site.register(Category)
+admin.site.register(Tag)
