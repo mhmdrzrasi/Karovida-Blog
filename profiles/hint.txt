@@ -1,0 +1,2 @@
+I created this app so that if in the future editors or journalists needed to perform certain fields or certain actions,
+the background would be available.
