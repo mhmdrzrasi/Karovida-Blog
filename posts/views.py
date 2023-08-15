@@ -17,7 +17,7 @@ class PostView(View):
 
     def get(self, request: HttpRequest, post_id):
         post = get_object_or_404(Post, id=post_id)
-        return render(request, '', {post})  # todo
+        return render(request, 'posts/post.html', {'post': post})
 
 # #  Admin, Journalist, Editor
 # class CategoryDetail(View):
