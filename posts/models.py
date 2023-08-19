@@ -4,6 +4,7 @@ from accounts.models import User
 from .constants import STATUS_CHOICE
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime
+from django.urls import reverse
 from django.utils.text import slugify
 
 
@@ -49,6 +50,9 @@ class Post(models.Model):
         # if not self.slug:
         #     self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('posts:post-demo', args=[self.id])
 
 
 class Category(models.Model):
