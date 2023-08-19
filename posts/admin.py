@@ -53,10 +53,10 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_list_display(self, request):
         if request.user.is_editor:
-            return ['title', 'category', 'solar_date', 'slug', 'status']
+            return ['title', 'category', 'solar_date', 'status']
         if request.user.is_journalist:
-            return ['title', 'category', 'solar_date', 'slug', 'author', 'status']
-        return ['title', 'category', 'solar_date', 'slug', 'author', 'reviewer', 'status']
+            return ['title', 'category', 'solar_date', 'author', 'status']
+        return ['title', 'category', 'solar_date', 'author', 'reviewer', 'status']
 
     solar_date.short_description = 'تاریخ انتشار'
 

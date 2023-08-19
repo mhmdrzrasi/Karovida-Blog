@@ -17,7 +17,7 @@ class Post(models.Model):
     content = models.TextField(help_text='محتوا اصلی پست که به صورت HTML وارد شود', verbose_name='محتوا پست')
     image = models.ImageField(upload_to='uploads/', null=True, blank=True, verbose_name='عکس')
 
-    slug = models.SlugField(blank=True, unique=True)
+    # slug = models.SlugField(blank=True, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     publish_date = models.DateTimeField(null=True, blank=True, verbose_name='تاریخ انتشار')
@@ -46,8 +46,8 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
+        # if not self.slug:
+        #     self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
 
