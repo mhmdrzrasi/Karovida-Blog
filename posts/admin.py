@@ -5,6 +5,7 @@ from .models import Post, Category, Tag
 from persiantools.jdatetime import JalaliDateTime
 from datetime import datetime
 import pytz
+from django.utils.html import format_html
 
 
 class TagInline(admin.TabularInline):
@@ -22,6 +23,9 @@ class PostAdmin(admin.ModelAdmin):
 
     def solar_date(self, obj):
         return obj.jalali_date_time
+
+    def demo_url(self, obj):
+        return format_html(f'<a href="{obj.get_absolute_url()}">نمایش</a>')
 
     def get_fields(self, request, obj=None):
         if request.user.is_editor:
@@ -53,12 +57,13 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_list_display(self, request):
         if request.user.is_editor:
-            return ['title', 'category', 'solar_date', 'status']
+            return ['title', 'category', 'solar_date', 'status', 'demo_url']
         if request.user.is_journalist:
-            return ['title', 'category', 'solar_date', 'author', 'status']
-        return ['title', 'category', 'solar_date', 'author', 'reviewer', 'status']
+            return ['title', 'category', 'solar_date', 'author', 'status', 'demo_url']
+        return ['title', 'category', 'solar_date', 'author', 'reviewer', 'status', 'demo_url']
 
     solar_date.short_description = 'تاریخ انتشار'
+    demo_url.short_description = 'حالت دمو'
 
 
 admin.site.register(Category)
